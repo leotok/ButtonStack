@@ -11,12 +11,12 @@ import UIKit
 @objc protocol ButtonStackViewControllerDelegate: NSObjectProtocol {
     
     optional func buttonStack(buttonStack: ButtonStackViewController, didSelect button: UIButton, atIndexPath indexPath: NSIndexPath)
- 
+    
     optional func buttonStackDidCancel(buttonStack: ButtonStackViewController)
 }
 
 class ButtonStackViewController: UIViewController {
-
+    
     var angle: CGFloat = 3.14 / 4
     var alpla: CGFloat = 1
     var spacing0: CGFloat = 70
@@ -45,7 +45,7 @@ class ButtonStackViewController: UIViewController {
         prevButton.hidden = true
         plusButton = UIButton(frame: prevButton.frame)
         plusButton.setImage( prevButton.imageView?.image, forState: UIControlState.Normal)
-        plusButton.addTarget(self, action: Selector("showButtons"), forControlEvents: UIControlEvents.TouchUpInside)        
+        plusButton.addTarget(self, action: Selector("showButtons"), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
     }
@@ -58,17 +58,17 @@ class ButtonStackViewController: UIViewController {
         
         self.view.addSubview(plusButton)
         self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-
+        
         self.setAuxButtons()
         self.showButtons()
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-    
+        
         self.showButtons()
     }
-
-
+    
+    
     func setAuxButtons()
     {
         // botoes auxiliares
@@ -151,7 +151,7 @@ class ButtonStackViewController: UIViewController {
     func showButtons() {
         
         UIView.animateWithDuration( 0.2 , animations: {
-
+            
             //self.view.backgroundColor = UIColor(red: 1, green: 1 , blue: 1, alpha: 0)
             if self.alpla == 1
             {
@@ -159,6 +159,7 @@ class ButtonStackViewController: UIViewController {
             }
             else {
                 self.view.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0)
+                self.delegate?.buttonStackDidCancel!(self)
             }
             
             self.labelButton.center = CGPointMake(self.plusButton.center.x, self.labelButton.center.y - self.spacing1)
@@ -192,7 +193,7 @@ class ButtonStackViewController: UIViewController {
             }
         )
     }
-
+    
     func buttonAction(button: UIButton) {
         
         var indexPath = NSIndexPath(forRow: button.tag, inSection: 0)
